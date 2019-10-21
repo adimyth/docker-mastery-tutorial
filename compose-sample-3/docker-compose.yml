@@ -7,7 +7,7 @@ services:
   proxy:
     build:
       context: .
-      dockerfile: nginx.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - '80:80'
   web:
