@@ -1,0 +1,18 @@
+---
+version: '3'
+services:
+        flask-app:
+                build:
+                        context: .
+                        dockerfile: Dockerfile
+                image: flask-app
+                ports:
+                        - 5000:5000
+                environment:
+                        - FLASK_ENV=development
+        redis:
+                image: redis
+                volumes:
+                        - redis_flask_app:/var/lib/redis/
+volumes:
+        redis_flask_app:
