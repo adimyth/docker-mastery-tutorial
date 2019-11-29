@@ -3,11 +3,7 @@ version: '3.1'
 
 services:
         drupal:         # friendly container name
-                build:
-                        context: .
-                        # build an image using the Dockerfile
-                        dockerfile: Dockerfile
-                image: custom-drupal
+                image: drupal:8.2
                 volumes:
                         - drupal-modules:/var/www/html/modules
                         - drupal-themes:/var/www/html/themes
@@ -17,13 +13,13 @@ services:
                         - '8090:80'
 
         postgres:       # friendly container name
-                image: postgres         # build using official postgres
+                image: postgres:9.6         # build using official postgres
                 environment:
-                        POSTGRES_DB: 'drupal-postgres'
-                        POSTGRES_USER: 'postgres'
-                        POSTGRES_PASSWORD: '12345678'
+                        - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
                 volumes:
                         - drupal-data:/var/lib/postgresql/data
+                secrets:
+                        - postgres_password
 
 volumes:
         drupal-modules:
@@ -31,3 +27,6 @@ volumes:
         drupal-sites:
         drupal-profiles:
         drupal-data:
+secrets:
+        postgres_password:
+                external: true
